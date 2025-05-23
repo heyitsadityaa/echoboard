@@ -38,6 +38,7 @@ import ToolsBar from "../toolsbar/ToolsBar";
 import Path from "./Path";
 import SelectionBox from "./SelectionBox";
 import useDeleteLayers from "@/hooks/useDeleteLayers";
+import SelectionTools from "./SelectionTools";
 
 const MAX_LAYERS = 100;
 
@@ -111,13 +112,20 @@ const Canvas = () => {
 
       e.stopPropagation();
       if (!self.presence.selection.includes(layerId)) {
-        setMyPresence({
-          selection: [layerId],
-        });
+        setMyPresence(
+          {
+            selection: [layerId],
+          },
+          { addToHistory: true },
+        );
       }
 
-      const point = pointerEventToCanvasPoint(e, camera);
-      setCanvasState({ mode: CanvasMode.Translating, current: point });
+      if (e.nativeEvent.button === 2) {
+        setCanvasState({ mode: CanvasMode.RightClick });
+      } else {
+        const point = pointerEventToCanvasPoint(e, camera);
+        setCanvasState({ mode: CanvasMode.Translating, current: point });
+      }
     },
     [canvasState.mode, camera],
   );
@@ -160,7 +168,7 @@ const Canvas = () => {
           y: position.y,
           height: 100,
           width: 100,
-          fill: { r: 217, g: 217, b: 217 },
+          fill: { r: 0, g: 217, b: 0 },
           stroke: { r: 217, g: 217, b: 217 },
           opacity: 100,
         });
@@ -208,6 +216,7 @@ const Canvas = () => {
         liveLayers.set(layerId, layer);
 
         setMyPresence({ selection: [layerId] }, { addToHistory: true });
+        setCanvasState({ mode: CanvasMode.None });
       }
     },
     [],
@@ -327,6 +336,8 @@ const Canvas = () => {
 
   const onPointerUp = useMutation(
     ({}, e: React.PointerEvent) => {
+      if (canvasState.mode === CanvasMode.RightClick) return;
+
       const point = pointerEventToCanvasPoint(e, camera);
 
       if (
@@ -344,8 +355,9 @@ const Canvas = () => {
       } else {
         setCanvasState({ mode: CanvasMode.None });
       }
+      history.resume();
     },
-    [canvasState, setCanvasState, insertLayer, unselectLayers],
+    [canvasState, setCanvasState, insertLayer, unselectLayers, history],
   );
 
   const onWheel = useCallback((e: React.WheelEvent) => {
@@ -418,11 +430,13 @@ const Canvas = () => {
       continueDrawing,
       resizeSelectedLayer,
       updateSelectionNet,
+      startMultiSelection,
     ],
   );
 
   const onPointerDown = useMutation(
     ({}, e: React.PointerEvent) => {
+      if (canvasState.mode === CanvasMode.RightClick) return;
       const point = pointerEventToCanvasPoint(e, camera);
 
       if (canvasState.mode === CanvasMode.Dragging) {
@@ -445,7 +459,7 @@ const Canvas = () => {
   return (
     <div className="flex h-screen w-full">
       <main className="fixed right-0 left-0 h-screen overflow-y-auto">
-        <div className="shadow-[0_0_3px_rgba(0,0,0,0.18) absolute bottom-4 left-50 z-10 flex -translate-x-1/2 gap-3 rounded-lg bg-white p-1">
+        <div className="shadow-[0_0_3px_rgba(0,0,0,0.18) absolute bottom-4 left-50 z-10 flex -translate-x-1/2 gap-3 rounded-lg bg-white p-1 select-none">
           <p>{`x: ${camera.x}, y: ${camera.y}, zoom: ${camera.zoom}`}</p>
           <button
             className="bg-white text-black"
@@ -460,12 +474,14 @@ const Canvas = () => {
             backgroundColor: roomColor ? colorToCss(roomColor) : "#1e1e1e",
           }}
         >
+          <SelectionTools camera={camera} canvasMode={canvasState.mode} />
           <svg
             onWheel={onWheel}
             onPointerUp={onPointerUp}
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
             className="h-full w-full"
+            onContextMenu={(e) => e.preventDefault()}
           >
             <g
               style={{

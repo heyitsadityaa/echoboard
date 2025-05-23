@@ -95,7 +95,7 @@ const ToolsBar = ({
               canvasState.layerType === LayerType.Text
             }
           />
-          <ToolButton
+          {/* <ToolButton
             label="Sticky Note"
             icon={StickyNote}
             onClick={() =>
@@ -108,7 +108,7 @@ const ToolsBar = ({
               canvasState.mode === CanvasMode.Inserting &&
               canvasState.layerType === LayerType.Note
             }
-          />
+          /> */}
           <ToolButton
             label="Rectangle"
             icon={Square}
