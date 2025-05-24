@@ -2,6 +2,7 @@
 
 import {
   colorToCss,
+  connectionIdToColor,
   findIntersectionLayerWithRectangle,
   penPointsToPathLayer,
   pointerEventToCanvasPoint,
@@ -15,6 +16,7 @@ import {
   useStorage,
   useSelf,
   useMyPresence,
+  useOthers,
 } from "@liveblocks/react";
 import React, { useCallback, useEffect, useState, type ReactNode } from "react";
 import LayerComponent from "./LayerComponent";
@@ -39,10 +41,21 @@ import Path from "./Path";
 import SelectionBox from "./SelectionBox";
 import useDeleteLayers from "@/hooks/useDeleteLayers";
 import SelectionTools from "./SelectionTools";
+import UserAvatar from "../toolsbar/UserAvatar";
+import MultiplayerGuides from "./MultiplayerGuides";
+import type { User } from "@prisma/client";
 
 const MAX_LAYERS = 100;
 
-const Canvas = () => {
+const Canvas = ({
+  roomName,
+  roomId,
+  othersWithAccessToRoom,
+}: {
+  roomName: string;
+  roomId: string;
+  othersWithAccessToRoom: User[];
+}) => {
   const roomColor = useStorage((root) => root.roomColor);
   const layerIds = useStorage((root) => root.layerIds);
   const [camera, setCamera] = useState<Camera>({ x: 0, y: 0, zoom: 1 });
@@ -55,6 +68,8 @@ const Canvas = () => {
   const canUndo = useCanUndo();
   const canRedo = useCanRedo();
   const deleteLayers = useDeleteLayers();
+  const me = useSelf();
+  const others = useOthers();
 
   const selectAllLayers = useMutation(
     ({ setMyPresence }) => {
@@ -303,6 +318,7 @@ const Canvas = () => {
         return;
       }
       setMyPresence({
+        cursor: point,
         pencilDraft: [...pencilDraft, [point.x, point.y, e.pressure]],
       });
     },
@@ -396,7 +412,7 @@ const Canvas = () => {
   );
 
   const onPointerMove = useMutation(
-    ({}, e: React.PointerEvent) => {
+    ({ setMyPresence }, e: React.PointerEvent) => {
       const point = pointerEventToCanvasPoint(e, camera);
       if (canvasState.mode === CanvasMode.Pressing) {
         startMultiSelection(point, canvasState.origin);
@@ -421,6 +437,7 @@ const Canvas = () => {
       } else if (canvasState.mode === CanvasMode.Translating) {
         translateSelectedLayers(point);
       }
+      setMyPresence({ cursor: point });
     },
     [
       camera,
@@ -433,6 +450,10 @@ const Canvas = () => {
       startMultiSelection,
     ],
   );
+
+  const onPointerLeave = useMutation(({ setMyPresence }) => {
+    setMyPresence({ cursor: null });
+  }, []);
 
   const onPointerDown = useMutation(
     ({}, e: React.PointerEvent) => {
@@ -459,6 +480,7 @@ const Canvas = () => {
   return (
     <div className="flex h-screen w-full">
       <main className="fixed right-0 left-0 h-screen overflow-y-auto">
+        {/* Center Button */}
         <div className="shadow-[0_0_3px_rgba(0,0,0,0.18) absolute bottom-4 left-50 z-10 flex -translate-x-1/2 gap-3 rounded-lg bg-white p-1 select-none">
           <p>{`x: ${camera.x}, y: ${camera.y}, zoom: ${camera.zoom}`}</p>
           <button
@@ -468,6 +490,31 @@ const Canvas = () => {
             Center
           </button>
         </div>
+
+        {/* User Button */}
+        <div className="shadow-[0_0_3px_rgba(0,0,0,0.18) absolute top-4 right-30 z-10 flex -translate-x-1/2 gap-3 rounded-lg bg-white p-1 select-none">
+          <div className="flex items-center justify-between pr-2">
+            <div className="flex w-full max-w-36 gap-2 overflow-x-scroll p-3 text-xs">
+              {me && (
+                <UserAvatar
+                  color={connectionIdToColor(me.connectionId)}
+                  name={me.info.name}
+                />
+              )}
+              {others.map((other) => (
+                <>
+                  <UserAvatar
+                    key={other.connectionId}
+                    color={connectionIdToColor(other.connectionId)}
+                    name={other.info.name}
+                  />
+                </>
+              ))}
+            </div>
+            <div className="">Share Button</div>
+          </div>
+        </div>
+
         <div
           className="h-full w-full touch-none"
           style={{
@@ -477,6 +524,7 @@ const Canvas = () => {
           <SelectionTools camera={camera} canvasMode={canvasState.mode} />
           <svg
             onWheel={onWheel}
+            onPointerLeave={onPointerLeave}
             onPointerUp={onPointerUp}
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
@@ -512,6 +560,7 @@ const Canvas = () => {
                     )}
                   />
                 )}
+              <MultiplayerGuides />
               {pencilDraft !== null && pencilDraft.length > 0 && (
                 <Path
                   x={0}
