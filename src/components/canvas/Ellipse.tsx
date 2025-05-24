@@ -35,7 +35,7 @@ export default function Ellipse({
         cy={height / 2}
         rx={width / 2}
         ry={height / 2}
-        strokeWidth="1"
+        strokeWidth="2"
         opacity={`${opacity ?? 100}%`}
       />
     </g>

@@ -10,7 +10,8 @@ import {
 } from "./types";
 
 export function colorToCss(color: Color) {
-  return `#${color.r.toString(16).padStart(2, "0")}${color.g.toString(16).padStart(2, "0")}${color.b.toString(16).padStart(2, "0")}`;
+  const alpha = Math.round(color.a * 255); // convert from 0–1 to 0–255
+  return `#${color.r.toString(16).padStart(2, "0")}${color.g.toString(16).padStart(2, "0")}${color.b.toString(16).padStart(2, "0")}${alpha.toString(16).padStart(2, "0")}`;
 }
 
 const COLORS = ["#DC2626", "#D97706", "#059669", "#7C3AED", "#DB2777"];

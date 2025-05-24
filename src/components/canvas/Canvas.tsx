@@ -183,8 +183,9 @@ const Canvas = ({
           y: position.y,
           height: 100,
           width: 100,
-          fill: { r: 0, g: 217, b: 0 },
-          stroke: { r: 217, g: 217, b: 217 },
+          fill: { r: 0, g: 0, b: 0, a: 0 },
+          stroke: { r: 255, g: 255, b: 255, a: 1 },
+          cornerRadius: 10,
           opacity: 100,
         });
       } else if (layerType === LayerType.Ellipse) {
@@ -194,8 +195,8 @@ const Canvas = ({
           y: position.y,
           height: 100,
           width: 100,
-          fill: { r: 217, g: 217, b: 217 },
-          stroke: { r: 217, g: 217, b: 217 },
+          fill: { r: 0, g: 0, b: 0, a: 0 },
+          stroke: { r: 255, g: 255, b: 255, a: 1 },
           opacity: 100,
         });
       } else if (layerType === LayerType.Note) {
@@ -205,8 +206,8 @@ const Canvas = ({
           y: position.y,
           height: 100,
           width: 100,
-          fill: { r: 217, g: 217, b: 217 },
-          stroke: { r: 217, g: 217, b: 217 },
+          fill: { r: 255, g: 255, b: 255, a: 1 },
+          stroke: { r: 255, g: 255, b: 255, a: 1 },
           opacity: 100,
         });
       } else if (layerType === LayerType.Text) {
@@ -220,8 +221,8 @@ const Canvas = ({
           fontWeight: 400,
           fontFamily: "Inter",
           value: "Text",
-          fill: { r: 217, g: 217, b: 217 },
-          stroke: { r: 217, g: 217, b: 217 },
+          fill: { r: 255, g: 255, b: 255, a: 1 },
+          stroke: { r: 255, g: 255, b: 255, a: 1 },
           opacity: 100,
         });
       }
@@ -300,7 +301,7 @@ const Canvas = ({
     ({ setMyPresence }, point: Point, pressure: number) => {
       setMyPresence({
         pencilDraft: [[point.x, point.y, pressure]],
-        penColor: { r: 0, g: 0, b: 217 },
+        penColor: { r: 255, g: 255, b: 255, a: 1 },
       });
     },
     [],
@@ -341,7 +342,9 @@ const Canvas = ({
     const id = nanoid();
     liveLayers.set(
       id,
-      new LiveObject(penPointsToPathLayer(pencilDraft, { r: 0, g: 0, b: 217 })),
+      new LiveObject(
+        penPointsToPathLayer(pencilDraft, { r: 255, g: 255, b: 255, a: 1 }),
+      ),
     );
 
     const liveLayerIds = storage.get("layerIds");
@@ -566,7 +569,7 @@ const Canvas = ({
                   x={0}
                   y={0}
                   // stroke={{ r: 217, g: 217, b: 217 }}
-                  fill={colorToCss({ r: 217, b: 217, g: 217 })}
+                  fill={colorToCss({ r: 255, b: 255, g: 255, a: 1 })}
                   opacity={100}
                   points={pencilDraft}
                 />

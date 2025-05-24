@@ -31,7 +31,7 @@ export default function Rectangle({
         width={width}
         height={height}
         fill={fill ? colorToCss(fill) : "#CCC"}
-        strokeWidth={1}
+        strokeWidth={2}
         stroke={stroke ? colorToCss(stroke) : "#CCC"}
         opacity={`${opacity ?? 100}%`}
         rx={cornerRadius ?? 0}

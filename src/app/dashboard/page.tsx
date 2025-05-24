@@ -1,7 +1,6 @@
 "use server";
 
 import { auth } from "@/server/auth";
-import { signout } from "../actions/auth";
 import { db } from "@/server/db";
 import RoomsView from "@/components/dashboard/RoomsView";
 import CreateRoom from "@/components/dashboard/CreateRoom";
