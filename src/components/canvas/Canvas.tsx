@@ -44,6 +44,7 @@ import SelectionTools from "./SelectionTools";
 import UserAvatar from "../toolsbar/UserAvatar";
 import MultiplayerGuides from "./MultiplayerGuides";
 import type { User } from "@prisma/client";
+import ShareMenu from "../toolsbar/ShareMenu";
 
 const MAX_LAYERS = 100;
 
@@ -514,7 +515,10 @@ const Canvas = ({
                 </>
               ))}
             </div>
-            <div className="">Share Button</div>
+            <ShareMenu
+              roomId={roomId}
+              othersWithAccessToRoom={othersWithAccessToRoom}
+            />
           </div>
         </div>
 

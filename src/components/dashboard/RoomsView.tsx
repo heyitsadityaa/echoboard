@@ -1,14 +1,20 @@
 "use client";
 
-// import { Room } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React, { useRef } from "react";
 import { useEffect, useMemo, useState } from "react";
-// import ConfirmationModal from "./ConfirmationModal";
 import { deleteRoom, updateRoomTitle } from "@/app/actions/rooms";
 import ConfirmationModal from "./ConfirmationModal";
 import type { Room } from "@prisma/client";
-// import { deleteRoom, updateRoomTitle } from "@/app/actions/rooms";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { EllipsisVertical, Trash2 } from "lucide-react";
 
 const PASTEL_COLORS = [
   "rgb(255, 182, 193)", // pink
@@ -162,40 +168,60 @@ function SingleRoom({
   }, [selected, id, isEditing]);
 
   return (
-    <div className="flex flex-col gap-0.5">
+    <div
+      onDoubleClick={navigateTo}
+      onClick={select}
+      className={`flex flex-col gap-0.5 rounded-md border border-gray-200 pb-1 ${selected ? "border-2 border-lime-500" : "border border-[#e8e8e8]"} cursor-pointer`}
+    >
       <div
-        onDoubleClick={navigateTo}
-        onClick={select}
         style={{ backgroundColor: color }}
-        className={`flex h-56 w-96 cursor-pointer items-center justify-center rounded-md ${selected ? "border-2 border-blue-500" : "border border-[#e8e8e8]"}`}
+        className={`flex h-56 w-96 items-center justify-center rounded-md`}
       >
         <p className="text-md font-medium select-none">{title}</p>
       </div>
-      {isEditing && canEdit ? (
-        <input
-          type="text"
-          value={editedTitle}
-          onChange={(e) => setEditedTitle(e.target.value)}
-          onBlur={handleBlur}
-          onKeyPress={handleKeyPress}
-          autoFocus
-          className="w-full"
+      <div className="ml-1.5 flex items-center justify-between">
+        <div className="flex flex-col">
+          {isEditing && canEdit ? (
+            <input
+              type="text"
+              value={editedTitle}
+              onChange={(e) => setEditedTitle(e.target.value)}
+              onBlur={handleBlur}
+              onKeyPress={handleKeyPress}
+              autoFocus
+              className="w-full"
+            />
+          ) : (
+            <p
+              onClick={() => setIsEditing(true)}
+              className="mt-2 text-[13px] font-medium select-none"
+            >
+              {title}
+            </p>
+          )}
+          <p className="text-[10px] text-gray-400 select-none">{description}</p>
+        </div>
+        <ConfirmationModal
+          isOpen={showConfirmationModal}
+          onClose={() => setShowConfirmationModal(false)}
+          onConfirm={confirmDelete}
+          message="Are you sure you want to delete this room?"
         />
-      ) : (
-        <p
-          onClick={() => setIsEditing(true)}
-          className="mt-2 text-[13px] font-medium select-none"
-        >
-          {title}
-        </p>
-      )}
-      <p className="text-[10px] text-gray-400 select-none">{description}</p>
-      <ConfirmationModal
-        isOpen={showConfirmationModal}
-        onClose={() => setShowConfirmationModal(false)}
-        onConfirm={confirmDelete}
-        message="Are you sure you want to delete this room?"
-      />
+        <DropdownMenu>
+          <DropdownMenuTrigger className="rounded-full hover:bg-gray-100 focus:outline-none">
+            <EllipsisVertical className="m-2 h-5 w-5" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem
+              onClick={() => setShowConfirmationModal(true)}
+              className="hover:bg-red-100/80 hover:text-red-500"
+            >
+              <Trash2 className="h-4 w-4" />
+              <span className="">Delete room</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </div>
   );
 }
