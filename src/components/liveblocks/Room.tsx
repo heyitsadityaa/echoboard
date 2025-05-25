@@ -1,7 +1,7 @@
 "use client";
 
 import type { Layer } from "@/types";
-import { LiveList, LiveMap, LiveObject } from "@liveblocks/client";
+import { LiveList, LiveMap, type LiveObject } from "@liveblocks/client";
 import {
   ClientSideSuspense,
   LiveblocksProvider,

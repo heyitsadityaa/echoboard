@@ -8,7 +8,7 @@ import {
   Pencil,
   Redo2,
   Square,
-  StickyNote,
+  // StickyNote,
   Type,
   Undo2,
   ZoomIn,

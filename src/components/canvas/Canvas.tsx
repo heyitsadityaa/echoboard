@@ -18,7 +18,7 @@ import {
   useMyPresence,
   useOthers,
 } from "@liveblocks/react";
-import React, { useCallback, useEffect, useState, type ReactNode } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import LayerComponent from "./LayerComponent";
 import {
   LayerType,
@@ -31,7 +31,7 @@ import {
   type CanvasState,
   type NoteLayer,
   type TextLayer,
-  Side,
+  type Side,
   type XYWH,
 } from "@/types";
 import { LiveObject } from "@liveblocks/client";
@@ -49,7 +49,6 @@ import ShareMenu from "../toolsbar/ShareMenu";
 const MAX_LAYERS = 100;
 
 const Canvas = ({
-  roomName,
   roomId,
   othersWithAccessToRoom,
 }: {
@@ -64,7 +63,6 @@ const Canvas = ({
     mode: CanvasMode.None,
   });
   const pencilDraft = useSelf((me) => me.presence.pencilDraft);
-  const presence = useMyPresence();
   const history = useHistory();
   const canUndo = useCanUndo();
   const canRedo = useCanRedo();
@@ -115,7 +113,7 @@ const Canvas = ({
     return () => {
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [deleteLayers]);
+  }, [deleteLayers, history, selectAllLayers]);
 
   const onLayerPointerDown = useMutation(
     ({ self, setMyPresence }, e: React.PointerEvent, layerId: string) => {

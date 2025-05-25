@@ -4,7 +4,6 @@ import { useState } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -21,7 +20,6 @@ export default function ShareMenu({
 }) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | undefined>(undefined);
-  const user = othersWithAccessToRoom;
 
   const inviteUser = async () => {
     const error = await shareRoom(roomId, email);
@@ -67,7 +65,7 @@ export default function ShareMenu({
                 <span className="text-[11px] text-gray-500">Full access</span>
 
                 <X
-                  onClick={() => deleteInvitation(roomId, user.email!)}
+                  onClick={() => deleteInvitation(roomId, user.email)}
                   className="h-4 w-4 cursor-pointer text-gray-500"
                 />
               </div>

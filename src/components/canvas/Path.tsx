@@ -1,7 +1,5 @@
-import type { Color } from "@/types";
-import { number } from "zod";
 import { getStroke } from "perfect-freehand";
-import { colorToCss, getSvgPathFromStroke } from "@/utils";
+import { getSvgPathFromStroke } from "@/utils";
 
 interface PathProps {
   x: number;

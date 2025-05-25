@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import UserAvatar from "@/components/toolsbar/UserAvatar";
 import { ChevronDown, LogOut } from "lucide-react";
 import { signout } from "@/app/actions/auth";

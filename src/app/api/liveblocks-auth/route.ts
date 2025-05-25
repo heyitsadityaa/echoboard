@@ -4,7 +4,7 @@ import { db } from "@/server/db";
 import { Liveblocks } from "@liveblocks/node";
 
 const liveblocks = new Liveblocks({ secret: env.LIVEBLOCKS_SECRET_KEY });
-export async function POST(req: Request) {
+export async function POST() {
   const userSession = await auth();
 
   // Get the users room, and invitations to rooms

@@ -1,6 +1,6 @@
 "use server";
 
-import { isValid, ZodError } from "zod";
+import { ZodError } from "zod";
 import { db } from "@/server/db";
 import bcrypt from "bcryptjs";
 import { redirect } from "next/navigation";
