@@ -45,6 +45,10 @@ import UserAvatar from "../toolsbar/UserAvatar";
 import MultiplayerGuides from "./MultiplayerGuides";
 import type { User } from "@prisma/client";
 import ShareMenu from "../toolsbar/ShareMenu";
+import VoiceChat from "./VoiceChat";
+import ToolButton from "../toolsbar/tool-Button";
+import { ArrowLeft, LocateFixed, Settings } from "lucide-react";
+import { Button } from "../ui/button";
 
 const MAX_LAYERS = 100;
 
@@ -480,21 +484,70 @@ const Canvas = ({
   );
 
   return (
-    <div className="flex h-screen w-full">
+    <div className="bg-background flex h-screen w-full flex-col">
+      <header
+        style={{ backgroundColor: "#121212" }}
+        className="bg-background border-border z-20 flex h-13 items-center border-b px-4 backdrop-blur-sm"
+      >
+        <div className="mx-auto flex w-full max-w-screen-2xl items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-foreground-secondary"
+            >
+              <ArrowLeft size={20} />
+            </Button>
+
+            <div className="bg-border h-6 w-px"></div>
+
+            {/* <div className="flex items-center">
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={boardName}
+                  onChange={handleNameChange}
+                  onBlur={handleNameBlur}
+                  onKeyDown={handleNameKeyDown}
+                  autoFocus
+                  className="bg-background-tertiary border-border focus:ring-accent rounded border px-2 py-1 text-sm font-medium focus:border-transparent focus:ring-2 focus:outline-none"
+                />
+              ) : (
+                <h1
+                  className="hover:text-accent cursor-pointer text-lg font-medium transition-colors"
+                  onClick={() => setIsEditing(true)}
+                >
+                  {boardName}
+                </h1>
+              )}
+            </div> */}
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-foreground-secondary"
+            >
+              <Settings size={20} />
+            </Button>
+          </div>
+        </div>
+      </header>
+
       <main className="fixed right-0 left-0 h-screen overflow-y-auto">
         {/* Center Button */}
-        <div className="shadow-[0_0_3px_rgba(0,0,0,0.18) absolute bottom-4 left-50 z-10 flex -translate-x-1/2 gap-3 rounded-lg bg-white p-1 select-none">
-          <p>{`x: ${camera.x}, y: ${camera.y}, zoom: ${camera.zoom}`}</p>
-          <button
-            className="bg-white text-black"
+        <div className="bg-background-secondary shadow-soft absolute bottom-4 left-50 z-10 flex -translate-x-1/2 items-center justify-center gap-3 rounded-lg px-2 py-1 text-white select-none">
+          <p>{`x: ${camera.x.toFixed(1)}, y: ${camera.y.toFixed(1)}, zoom: ${camera.zoom.toFixed(1)}`}</p>
+          <ToolButton
+            label="Center"
+            icon={LocateFixed}
             onClick={() => setCamera({ x: 0, y: 0, zoom: 1 })}
-          >
-            Center
-          </button>
+          />
         </div>
 
         {/* User Button */}
-        <div className="shadow-[0_0_3px_rgba(0,0,0,0.18) absolute top-4 right-30 z-10 flex -translate-x-1/2 gap-3 rounded-lg bg-white p-1 select-none">
+        <div className="shadow-[0_0_3px_rgba(0,0,0,0.18) absolute top-20 right-6 z-10 flex -translate-x-1/2 gap-3 rounded-lg bg-white p-1 select-none">
           <div className="flex items-center justify-between pr-2">
             <div className="flex w-full max-w-36 gap-2 overflow-x-scroll p-3 text-xs">
               {me && (
@@ -519,9 +572,10 @@ const Canvas = ({
             />
           </div>
         </div>
+        <VoiceChat />
 
         <div
-          className="h-full w-full touch-none"
+          className="bg-background h-full w-full touch-none"
           style={{
             backgroundColor: roomColor ? colorToCss(roomColor) : "#1e1e1e",
           }}
@@ -580,6 +634,7 @@ const Canvas = ({
           </svg>
         </div>
       </main>
+
       <ToolsBar
         canvasState={canvasState}
         setCanvasState={(newState) => setCanvasState(newState)}

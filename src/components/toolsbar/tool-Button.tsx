@@ -26,6 +26,7 @@ const ToolButton = ({
         disabled={isDisabled}
         onClick={onClick}
         size="icon"
+        className="hover:border-border-hover text-white"
         variant={isActive ? "boardActive" : "board"}
       >
         <Icon />

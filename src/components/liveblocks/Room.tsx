@@ -27,7 +27,7 @@ const Room = ({
           pencilDraft: null,
         }}
         initialStorage={{
-          roomColor: { r: 30, g: 30, b: 30, a: 1 },
+          roomColor: { r: 18, g: 18, b: 18, a: 1 },
           layers: new LiveMap<string, LiveObject<Layer>>(),
           layerIds: new LiveList([]),
         }}

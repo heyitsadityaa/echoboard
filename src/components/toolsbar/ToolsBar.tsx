@@ -43,7 +43,7 @@ const ToolsBar = ({
   return (
     <>
       <div className="fixed bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center justify-center gap-3 p-1">
-        <div className="shadow-[0_0_3px_rgba(0,0,0,0.18) flex gap-3 rounded-lg bg-white p-1">
+        <div className="shadow-soft bg-background-secondary flex gap-3 rounded-lg p-1">
           <ToolButton
             label="Zoom In"
             icon={ZoomIn}
@@ -57,7 +57,7 @@ const ToolsBar = ({
             isDisabled={!canZoomOut}
           />
         </div>
-        <div className="flex items-center justify-center gap-3 rounded-lg bg-white p-1 shadow-[0_0_3px_rgba(0,0,0,0.18)]">
+        <div className="bg-background-secondary flex items-center justify-center gap-3 rounded-lg p-1 shadow-[0_0_3px_rgba(0,0,0,0.18)]">
           <ToolButton
             label="Select"
             icon={MousePointer2}
@@ -149,7 +149,7 @@ const ToolsBar = ({
           />
         </div>
 
-        <div className="ml-3 flex items-center justify-center gap-3 rounded-lg bg-white p-1 shadow-[0_0_3px_rgba(0,0,0,0.18)]">
+        <div className="bg-background-secondary ml-3 flex items-center justify-center gap-3 rounded-lg p-1 shadow-[0_0_3px_rgba(0,0,0,0.18)]">
           <ToolButton
             label="Undo"
             icon={Undo2}
