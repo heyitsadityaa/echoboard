@@ -18,6 +18,7 @@ export async function authenticate(
 ) {
   try {
     await signIn("credentials", formData);
+    // await signIn("google", { callbackUrl: '/dashboard' });
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {

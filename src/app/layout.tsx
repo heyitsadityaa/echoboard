@@ -19,9 +19,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${inter.className}`}>
-      <body
+      <body suppressHydrationWarning
         suppressContentEditableWarning
-        className="overflow-hidden overscroll-none"
+        className="overscroll-none dark"
       >
         {children}
       </body>

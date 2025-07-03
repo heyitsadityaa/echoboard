@@ -18,6 +18,8 @@ export const env = createEnv({
       .default("development"),
     LIVEBLOCKS_PUBLIC_KEY: z.string(),
     LIVEBLOCKS_SECRET_KEY: z.string(),
+    GOOGLE_CLIENT_ID: z.string(),
+    GOOGLE_CLIENT_SECRET: z.string(),
   },
 
   /**
@@ -40,6 +42,8 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     LIVEBLOCKS_PUBLIC_KEY: process.env.LIVEBLOCKS_PUBLIC_KEY,
     LIVEBLOCKS_SECRET_KEY: process.env.LIVEBLOCKS_SECRET_KEY,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

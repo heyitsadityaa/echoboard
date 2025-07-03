@@ -5,9 +5,14 @@ import { db } from "@/server/db";
 import RoomsView from "@/components/dashboard/RoomsView";
 import CreateRoom from "@/components/dashboard/CreateRoom";
 import UserMenu from "@/components/dashboard/UserMenu";
+import { redirect } from "next/navigation";
 
 export default async function Page() {
   const session = await auth();
+
+  if (!session) {
+    redirect("/");
+  }
 
   const user = await db.user.findUniqueOrThrow({
     where: {

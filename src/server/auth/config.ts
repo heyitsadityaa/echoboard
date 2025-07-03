@@ -3,6 +3,7 @@ import { type DefaultSession, type NextAuthConfig } from "next-auth";
 
 import { db } from "@/server/db";
 import Credentials from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import { signInSchema } from "@/schema";
 import bcrypt from "bcryptjs";
 
@@ -34,6 +35,10 @@ declare module "next-auth" {
  */
 export const authConfig = {
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET
+    }),
     Credentials({
       credentials: {
         email: {},

@@ -3,7 +3,15 @@
 import Link from "next/link";
 import { useActionState } from "react";
 import { authenticate } from "../actions/auth";
-// import { authenticate } from "../actions/auth";
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Separator } from "@/components/ui/separator"
+import { FcGoogle } from "react-icons/fc";
+import { signIn } from "@/server/auth";
+
+
 
 export default function Page() {
   const [errorMessage, formAction, isPending] = useActionState(
@@ -11,55 +19,81 @@ export default function Page() {
     undefined,
   );
   return (
-    <div className="flex min-h-screen items-center justify-center bg-white px-4">
-      <div className="w-full max-w-sm space-y-6">
-        <h1 className="text-center text-2xl font-semibold text-gray-900">
-          Sign in
-        </h1>
-        <form action={formAction} className="space-y-4">
-          <input type="hidden" name="redirectTo" value="/dashboard" />
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        {/* Logo */}
+        <div className="flex items-center justify-center mb-8">
+          <Link href="/" className="flex items-center space-x-2">
+            <div className="w-10 h-10 bg-lime-500 rounded-lg flex items-center justify-center">
+              <span className="text-black bg-lime-500 font-bold text-xl">E</span>
+            </div>
+            <span className="text-2xl font-semibold text-foreground">Echoboard</span>
+          </Link>
+        </div>
 
-          <div className="relative h-fit">
-            <input
-              className="w-full rounded-md border border-gray-300 px-3 pt-7 pb-1 text-sm focus:border-black focus:outline-none"
-              type="email"
-              name="email"
-              required
-            />
-            <label className="absolute top-2 left-3 text-[12px]">EMAIL</label>
-          </div>
+        <Card className="bg-card border-border backdrop-blur-sm">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl text-card-foreground">Welcome back</CardTitle>
+            <CardDescription className="text-muted-foreground">Sign in to your Echoboard account</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <form action={formAction} className="space-y-4">
+              <input type="hidden" name="redirectTo" value="/dashboard" />
 
-          <div className="relative h-fit">
-            <input
-              className="w-full rounded-md border border-gray-300 px-3 pt-7 pb-1 text-sm focus:border-black focus:outline-none"
-              type="password"
-              name="password"
-              required
-              minLength={8}
-            />
-            <label className="absolute top-2 left-3 text-[12px]">
-              PASSWORD
-            </label>
-          </div>
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-foreground">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  className="bg-input border-border focus:border-accent text-foreground"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-foreground">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  className="bg-input border-border focus:border-accent text-foreground"
+                  required
+                  minLength={8}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <Link href="#" className="text-sm text-accent-muted">
+                  Forgot password?
+                </Link>
+              </div>
+              <Button disabled={isPending} className="w-full bg-lime-500 text-white">{isPending ? "Logging in..." : "Log in"}</Button>
+            </form>
+            {errorMessage && (
+              <p className="text-center text-sm text-destructive">{errorMessage}</p>
+            )}
 
-          <button
-            disabled={isPending}
-            className="w-full rounded-md bg-black py-2 text-sm font-medium text-white hover:bg-gray-900 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-300"
-          >
-            {isPending ? "Logging in..." : "Log in"}
-          </button>
+            <div className="relative">
+              <Separator className="bg-border" />
+              <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-sm text-muted-foreground">
+                or
+              </span>
+            </div>
 
-          <p className="text-center text-xs text-gray-600">
-            No account?{" "}
-            <Link className="text-blue-400 hover:text-blue-600" href="/signup">
-              Create one
-            </Link>
-          </p>
+            <Button variant="outline" className="w-full border-border text-foreground-secondary hover:text-foreground-primary">
+              <FcGoogle className="mr-2" />
+              Continue with Google
+            </Button>
 
-          {errorMessage && (
-            <p className="text-center text-sm text-red-500">{errorMessage}</p>
-          )}
-        </form>
+            <p className="text-center text-sm text-muted-foreground">
+              Don't have an account?{" "}
+              <Link href="/signup" className="text-accent-muted">
+                Sign up
+              </Link>
+            </p>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
