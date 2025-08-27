@@ -37,6 +37,7 @@ export default async function Page({ params }: { params: ParamsType }) {
   return (
     <Room roomId={"room:" + id}>
       <Canvas
+        key={id}
         roomName={room.title}
         roomId={id}
         othersWithAccessToRoom={room.roomInvites.map((x) => x.user)}

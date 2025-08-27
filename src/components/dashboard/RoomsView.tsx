@@ -169,11 +169,11 @@ function SingleRoom({
     <div
       onDoubleClick={navigateTo}
       onClick={select}
-      className={`flex flex-col gap-0.5 rounded-md border border-gray-200 pb-1 ${selected ? "border-2 border-lime-500" : "border border-[#e8e8e8]"} cursor-pointer`}
+      className={`flex flex-col gap-0.5 rounded-md border-2 border-border pb-1 ${selected ? "border-2 border-lime-500" : "border-2 border-[#e8e8e8]"} cursor-pointer`}
     >
       <div
         style={{ backgroundColor: color }}
-        className={`flex h-56 w-96 items-center justify-center rounded-md`}
+        className={`flex h-56 w-86 items-center justify-center rounded-md`}
       >
         <p className="text-md font-medium select-none">{title}</p>
       </div>
@@ -185,7 +185,7 @@ function SingleRoom({
               value={editedTitle}
               onChange={(e) => setEditedTitle(e.target.value)}
               onBlur={handleBlur}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyPress}
               autoFocus
               className="w-full"
             />
@@ -236,7 +236,7 @@ function ViewModeButton({
   return (
     <button
       onClick={onSelect}
-      className={`rounded-md p-1 px-2 text-[11px] select-none hover:bg-gray-100 ${active ? "bg-gray-100" : ""}`}
+      className={`rounded-md p-1 px-2 text-[11px] select-none hover:bg-lime-400 ${active ? "text-lime-500 hover:text-black" : ""}`}
     >
       {text}
     </button>

@@ -49,12 +49,16 @@ import VoiceChat from "./VoiceChat";
 import ToolButton from "../toolsbar/tool-Button";
 import { ArrowLeft, LocateFixed, Settings } from "lucide-react";
 import { Button } from "../ui/button";
+import Link from "next/link";
+import { updateRoomTitle } from "@/app/actions/rooms";
+import { CanvasLoading } from "../canvasLoading";
 
 const MAX_LAYERS = 100;
 
 const Canvas = ({
   roomId,
   othersWithAccessToRoom,
+  roomName
 }: {
   roomName: string;
   roomId: string;
@@ -66,6 +70,8 @@ const Canvas = ({
   const [canvasState, setCanvasState] = useState<CanvasState>({
     mode: CanvasMode.None,
   });
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedTitle, setEditedTitle] = useState(roomName);
   const pencilDraft = useSelf((me) => me.presence.pencilDraft);
   const history = useHistory();
   const canUndo = useCanUndo();
@@ -73,6 +79,22 @@ const Canvas = ({
   const deleteLayers = useDeleteLayers();
   const me = useSelf();
   const others = useOthers();
+
+  const handleKeyPress = async (
+    event: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      setIsEditing(false);
+      await updateRoomTitle(editedTitle, roomId);
+    }
+  };
+
+  const handleBlur = async () => {
+    setIsEditing(false);
+    await updateRoomTitle(editedTitle, roomId);
+  };
+
 
   const selectAllLayers = useMutation(
     ({ setMyPresence }) => {
@@ -357,7 +379,7 @@ const Canvas = ({
   }, []);
 
   const onPointerUp = useMutation(
-    ({}, e: React.PointerEvent) => {
+    ({ }, e: React.PointerEvent) => {
       if (canvasState.mode === CanvasMode.RightClick) return;
 
       const point = pointerEventToCanvasPoint(e, camera);
@@ -462,7 +484,7 @@ const Canvas = ({
   }, []);
 
   const onPointerDown = useMutation(
-    ({}, e: React.PointerEvent) => {
+    ({ }, e: React.PointerEvent) => {
       if (canvasState.mode === CanvasMode.RightClick) return;
       const point = pointerEventToCanvasPoint(e, camera);
 
@@ -487,50 +509,59 @@ const Canvas = ({
     <div className="bg-background flex h-screen w-full flex-col">
       <header
         style={{ backgroundColor: "#121212" }}
-        className="bg-background border-border z-20 flex h-13 items-center border-b px-4 backdrop-blur-sm"
+        className="bg-background border-border z-20 flex h-17 items-center justify-center border-b px-4 backdrop-blur-sm"
       >
-        <div className="mx-auto flex w-full max-w-screen-2xl items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-foreground-secondary"
-            >
-              <ArrowLeft size={20} />
-            </Button>
+        <div className="flex items-center space-x-4">
+          <Link href="/dashboard" className="text-foreground-secondary">
+            <ArrowLeft size={20} />
+          </Link>
 
-            <div className="bg-border h-6 w-px"></div>
+          <div className="bg-border h-6 w-px"></div>
 
-            {/* <div className="flex items-center">
-              {isEditing ? (
-                <input
-                  type="text"
-                  value={boardName}
-                  onChange={handleNameChange}
-                  onBlur={handleNameBlur}
-                  onKeyDown={handleNameKeyDown}
-                  autoFocus
-                  className="bg-background-tertiary border-border focus:ring-accent rounded border px-2 py-1 text-sm font-medium focus:border-transparent focus:ring-2 focus:outline-none"
-                />
-              ) : (
-                <h1
-                  className="hover:text-accent cursor-pointer text-lg font-medium transition-colors"
-                  onClick={() => setIsEditing(true)}
-                >
-                  {boardName}
-                </h1>
-              )}
-            </div> */}
+          <div className="flex items-center">
+            {isEditing ? (
+              <input
+                type="text"
+                value={editedTitle}
+                onChange={(e) => setEditedTitle(e.target.value)}
+                onBlur={handleBlur}
+                onKeyDown={handleKeyPress}
+                autoFocus
+                className="bg-background-tertiary border-border focus:ring-accent rounded border px-2 py-1 text-sm font-medium focus:border-transparent focus:ring-2 focus:outline-none"
+              />
+            ) : (
+              <h1
+                className="hover:text-gray-400 cursor-pointer text-lg font-medium transition-colors"
+                onClick={() => setIsEditing(true)}
+              >
+                {roomName}
+              </h1>
+            )}
           </div>
+        </div>
 
-          <div className="flex items-center space-x-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-foreground-secondary"
-            >
-              <Settings size={20} />
-            </Button>
+        <div className="flex items-center justify-between px-2 border-2 border-border rounded-lg ml-auto">
+          <div className="flex w-full max-w-36 gap-2 p-3 text-xs">
+            {me && (
+              <UserAvatar
+                color={connectionIdToColor(me.connectionId)}
+                name={me.info.name}
+              />
+            )}
+            {others.map((other) => (
+              <UserAvatar
+                key={other.connectionId}
+                color={connectionIdToColor(other.connectionId)}
+                name={other.info.name}
+              />
+            ))}
+          </div>
+          <ShareMenu
+            roomId={roomId}
+            othersWithAccessToRoom={othersWithAccessToRoom}
+          />
+          <div className="">
+            <VoiceChat />
           </div>
         </div>
       </header>
@@ -545,34 +576,6 @@ const Canvas = ({
             onClick={() => setCamera({ x: 0, y: 0, zoom: 1 })}
           />
         </div>
-
-        {/* User Button */}
-        <div className="shadow-[0_0_3px_rgba(0,0,0,0.18) absolute top-20 right-6 z-10 flex -translate-x-1/2 gap-3 rounded-lg bg-white p-1 select-none">
-          <div className="flex items-center justify-between pr-2">
-            <div className="flex w-full max-w-36 gap-2 overflow-x-scroll p-3 text-xs">
-              {me && (
-                <UserAvatar
-                  color={connectionIdToColor(me.connectionId)}
-                  name={me.info.name}
-                />
-              )}
-              {others.map((other) => (
-                <>
-                  <UserAvatar
-                    key={other.connectionId}
-                    color={connectionIdToColor(other.connectionId)}
-                    name={other.info.name}
-                  />
-                </>
-              ))}
-            </div>
-            <ShareMenu
-              roomId={roomId}
-              othersWithAccessToRoom={othersWithAccessToRoom}
-            />
-          </div>
-        </div>
-        <VoiceChat />
 
         <div
           className="bg-background h-full w-full touch-none"

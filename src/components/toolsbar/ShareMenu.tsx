@@ -34,17 +34,16 @@ export default function ShareMenu({
         <DialogHeader>
           <DialogTitle>Share this file</DialogTitle>
         </DialogHeader>
-        {/* <DialogDescription className="flex h-8 items-center space-x-2"> */}
         <input
           type="text"
           placeholder="Invite others by email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="h-full w-full rounded-md border border-gray-300 px-3 text-xs placeholder:text-gray-500 focus:border-black focus:outline-none"
+          className="h-full w-full rounded-md border border-border px-3 py-2 text-xs placeholder:text-gray-500 focus:border-gray-600"
         />
         <button
           onClick={inviteUser}
-          className="h-full rounded-md bg-[#0c8ce9] px-4 py-2 text-[11px] text-white"
+          className="h-full rounded-md bg-lime-500 px-4 py-2 text-[11px] text-white"
         >
           Share
         </button>
@@ -72,7 +71,6 @@ export default function ShareMenu({
             </li>
           ))}
         </ul>
-        {/* </DialogDescription> */}
       </DialogContent>
     </Dialog>
   );

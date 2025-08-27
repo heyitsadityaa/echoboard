@@ -8,6 +8,8 @@ import {
   RoomProvider,
 } from "@liveblocks/react";
 import React, { type ReactNode } from "react";
+import { CanvasLoading } from "../canvasLoading";
+import { Spinner } from "../spinner";
 
 const Room = ({
   children,
@@ -32,7 +34,7 @@ const Room = ({
           layerIds: new LiveList([]),
         }}
       >
-        <ClientSideSuspense fallback={<div>Loading...</div>}>
+        <ClientSideSuspense fallback={<Spinner />}>
           {children}
         </ClientSideSuspense>
       </RoomProvider>

@@ -9,26 +9,23 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { Button } from "../ui/button";
 
 export default function UserMenu({ email }: { email: string | null }) {
   return (
-    <div className="relative">
-      <DropdownMenu>
-        <DropdownMenuTrigger className="flex w-fit cursor-pointer items-center gap-2 rounded-md p-1 hover:bg-gray-100">
-          <UserAvatar name={email ?? "Anonymous"} />
-          <h2 className="scroll-m-20 text-[13px] font-medium">{email}</h2>
-          <ChevronDown className="h-4 w-4" />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuItem
-            onClick={signout}
-            className={`flex w-full items-center justify-between p-1 hover:bg-lime-500`}
-          >
-            <span className="text-xs">Sign out</span>
-            <LogOut className="mr-2 h-4 w-4" />
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="flex items-center font-semibold text-lime-500 rounded-lg">
+          {email}
+          <ChevronDown className="size-6" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56 bg-background border-slate-800" align="end">
+        <DropdownMenuItem onClick={() => signout()} className="hover:bg-background text-red-400">
+          <LogOut className="mr-2 h-4 w-4" />
+          Log out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
