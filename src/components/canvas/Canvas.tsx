@@ -15,7 +15,6 @@ import {
   useMutation,
   useStorage,
   useSelf,
-  useMyPresence,
   useOthers,
 } from "@liveblocks/react";
 import React, { useCallback, useEffect, useState } from "react";
@@ -47,11 +46,9 @@ import type { User } from "@prisma/client";
 import ShareMenu from "../toolsbar/ShareMenu";
 import VoiceChat from "./VoiceChat";
 import ToolButton from "../toolsbar/tool-Button";
-import { ArrowLeft, LocateFixed, Settings } from "lucide-react";
-import { Button } from "../ui/button";
+import { ArrowLeft, LocateFixed } from "lucide-react";
 import Link from "next/link";
 import { updateRoomTitle } from "@/app/actions/rooms";
-import { CanvasLoading } from "../canvasLoading";
 
 const MAX_LAYERS = 100;
 

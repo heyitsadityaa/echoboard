@@ -55,9 +55,14 @@ export const CanvasLoading = () => {
 
                 {/* Toolbar skeleton */}
                 <div className="bg-background-secondary border-border shadow-soft fixed bottom-6 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 rounded-lg border px-3 py-2">
-                    {[...Array(8)].map((_, i) => (
-                        <Skeleton key={i} className="h-8 w-8" />
-                    ))}
+                    <Skeleton className="h-8 w-8" />
+                    <Skeleton className="h-8 w-8" />
+                    <Skeleton className="h-8 w-8" />
+                    <Skeleton className="h-8 w-8" />
+                    <Skeleton className="h-8 w-8" />
+                    <Skeleton className="h-8 w-8" />
+                    <Skeleton className="h-8 w-8" />
+                    <Skeleton className="h-8 w-8" />
                 </div>
             </main>
         </div>

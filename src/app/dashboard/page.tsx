@@ -4,25 +4,19 @@ import { auth } from "@/server/auth";
 import { db } from "@/server/db";
 import RoomsView from "@/components/dashboard/RoomsView";
 import CreateRoom from "@/components/dashboard/CreateRoom";
-import UserMenu from "@/components/dashboard/UserMenu";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Plus, Search, MoreHorizontal, Users, Clock, Settings, LogOut, Ghost, ArrowDown, ChevronDown } from "lucide-react"
-import { Input } from "@/components/ui/input"
+import { LogOut, ChevronDown } from "lucide-react"
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export async function DashboardContent() {
+async function DashboardContent() {
   const session = await auth();
 
   if (!session) {
@@ -78,7 +72,7 @@ export async function DashboardContent() {
   );
 }
 
-export async function DashboardLoading() {
+async function DashboardLoading() {
   return (
     <div className="flex h-screen flex-col">
       {/* Header skeleton */}
@@ -107,15 +101,48 @@ export async function DashboardLoading() {
 
           {/* Room cards grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="space-y-3">
-                <Skeleton className="h-32 w-full rounded-xl" />
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-3/4" />
-                  <Skeleton className="h-3 w-1/2" />
-                </div>
+            <div className="space-y-3">
+              <Skeleton className="h-32 w-full rounded-xl" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-3 w-1/2" />
               </div>
-            ))}
+            </div>
+            <div className="space-y-3">
+              <Skeleton className="h-32 w-full rounded-xl" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-3 w-1/2" />
+              </div>
+            </div>
+            <div className="space-y-3">
+              <Skeleton className="h-32 w-full rounded-xl" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-3 w-1/2" />
+              </div>
+            </div>
+            <div className="space-y-3">
+              <Skeleton className="h-32 w-full rounded-xl" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-3 w-1/2" />
+              </div>
+            </div>
+            <div className="space-y-3">
+              <Skeleton className="h-32 w-full rounded-xl" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-3 w-1/2" />
+              </div>
+            </div>
+            <div className="space-y-3">
+              <Skeleton className="h-32 w-full rounded-xl" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-3 w-1/2" />
+              </div>
+            </div>
           </div>
         </div>
       </div>

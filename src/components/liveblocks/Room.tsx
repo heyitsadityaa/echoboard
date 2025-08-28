@@ -8,7 +8,6 @@ import {
   RoomProvider,
 } from "@liveblocks/react";
 import React, { type ReactNode } from "react";
-import { CanvasLoading } from "../canvasLoading";
 import { Spinner } from "../spinner";
 
 const Room = ({
