@@ -15,6 +15,7 @@ import {
 import { LogOut, ChevronDown } from "lucide-react"
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { signout } from "@/app/actions/auth";
 
 async function DashboardContent() {
   const session = await auth();
@@ -52,7 +53,7 @@ async function DashboardContent() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56 bg-background border-slate-800" align="end">
-                <DropdownMenuItem className="hover:bg-background text-red-400">
+                <DropdownMenuItem onClick={signout} className="hover:bg-background text-red-400">
                   <LogOut className="mr-2 h-4 w-4" />
                   Log out
                 </DropdownMenuItem>
