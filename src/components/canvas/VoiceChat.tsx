@@ -33,7 +33,7 @@ export default function VoiceChat() {
       <div className="flex flex-col items-end">
         <Button
           variant="secondary"
-          className="mb-2 flex items-center gap-2"
+          className="mb-2 flex items-center gap-2 cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
         >
           <Users size={18} />
@@ -47,7 +47,7 @@ export default function VoiceChat() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
               transition={{ duration: 0.2 }}
-              className="bg-background-secondary border-border shadow-soft w-64 overflow-hidden rounded-lg border"
+              className="bg-background border-border shadow-soft w-64 overflow-hidden rounded-lg border"
             >
               <div className="border-border flex items-center justify-between border-b p-3">
                 <div className="flex items-center">
@@ -68,9 +68,8 @@ export default function VoiceChat() {
                     <div className="flex items-center">
                       <div className="relative">
                         <div
-                          className={`bg-background-tertiary flex h-8 w-8 items-center justify-center rounded-full ${
-                            participant.isActive ? "border-accent border-2" : ""
-                          }`}
+                          className={`bg-background-tertiary flex h-8 w-8 items-center justify-center rounded-full ${participant.isActive ? "border-accent border-2" : ""
+                            }`}
                         >
                           {participant.name.charAt(0)}
                         </div>
