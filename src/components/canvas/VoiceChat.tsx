@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Mic, MicOff, Users, PhoneOff } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from "../ui/button";
+import Hint from "../hint";
 
 interface Participant {
   id: string;
@@ -31,14 +32,16 @@ export default function VoiceChat() {
   return (
     <div className="absolute top-20 right-6 z-10 select-none">
       <div className="flex flex-col items-end">
-        <Button
-          variant="secondary"
-          className="mb-2 flex items-center gap-2 cursor-pointer"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <Users size={18} />
-          <span>{participants.length}</span>
-        </Button>
+        <Hint label="Upcoming" side="bottom" sideOffset={14}>
+          <Button
+            variant="secondary"
+            className="mb-2 flex items-center gap-2 cursor-pointer"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <Users size={18} />
+            <span>{participants.length}</span>
+          </Button>
+        </Hint>
 
         <AnimatePresence>
           {isOpen && (

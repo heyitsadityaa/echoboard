@@ -28,7 +28,7 @@ const Hint = ({
       <Tooltip delayDuration={100}>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent
-          className="border-black bg-black text-white"
+          className="bg-primary text-primary-foreground"
           side={side}
           align={align}
           sideOffset={sideOffset}

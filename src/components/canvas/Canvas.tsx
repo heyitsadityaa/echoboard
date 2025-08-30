@@ -49,6 +49,7 @@ import ToolButton from "../toolsbar/tool-Button";
 import { ArrowLeft, LocateFixed } from "lucide-react";
 import Link from "next/link";
 import { updateRoomTitle } from "@/app/actions/rooms";
+import Hint from "../hint";
 
 const MAX_LAYERS = 100;
 

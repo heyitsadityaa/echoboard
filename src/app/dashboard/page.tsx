@@ -39,7 +39,7 @@ async function DashboardContent() {
   });
 
   return (
-    <div className="flex h-screen w-full bg-background">
+    <div className="flex h-screen w-full bg-background select-none">
       <div className="flex h-screen flex-col">
         <div className="flex justify-between min-h-[50px] items-center border-b border-border px-10">
           <h2 className="text-md">Recents</h2>
