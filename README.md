@@ -17,6 +17,10 @@
 
 **Echoboard** is a modern, collaborative whiteboard application built with the latest web technologies. It enables real-time drawing, annotation, and communication for teams and individuals. Designed for seamless collaboration, Echoboard supports live multi-user editing, voice chat, and a variety of drawing tools, making it ideal for brainstorming, teaching, and remote teamwork.
 
+## Project Demo
+
+[echoboard-demo](https://github.com/user-attachments/assets/98151c07-8acb-4579-a290-163d213149f1)
+
 ## Key Features
 
 - 🎨 **Multi-layer Canvas**: Draw rectangles, ellipses, freehand paths, and text. Each layer is independently editable.
